@@ -10,8 +10,25 @@ A JavaScript library to validate in-app purchases made on Apple and ~~Android~~.
 
 ### Apple
 
+There are two methods to verify Apple receipts: [`receipt`](https://developer.apple.com/documentation/appstorereceipts/validating_receipts_on_the_device) and [`transaction`](https://medium.com/@ronaldmannak/how-to-validate-ios-and-macos-in-app-purchases-using-storekit-2-and-server-side-swift-98626641d3ea). They are roughly equivalent, but `transaction` is newer.
+
+In both cases, the basic flow is as follows:
+
+1. Get the receipt from the user's device.
+2. Send the receipt to the server for requests that should be authenticated.
+3. Call the appropriate verification function. The function handles the following:
+   - Parsing the receipt
+   - Verifying the signature. At best, we can prove that the receipt was signed by Apple. The library cannot attest that the receipt is not being covertly shared between users.
+4. It is your responsibility to check the receipt's contents.
+   - Check that the receipt is for the correct product.
+   - Check that the receipt is not expired for subscriptions.
+
+#### Receipt
+
+Safeguarding against replay attacks is very difficult. Receipts are only generated at very infrequent intervals (e.g. when a subscription renews).
+
 ```javascript
-import { decode as verifyApple } from "iap.js/apple";
+import { verifyReceipt as verifyApple } from "iap.js/apple";
 let result = await verifyApple(reciept, options).catch((err) => {
   // throws an error if the receipt is invalid
 });

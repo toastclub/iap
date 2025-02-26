@@ -32,7 +32,7 @@ function getDtsBunPlugin(): BunPlugin {
   };
 }
 
-const license = await readFile("./LICENSE", "utf-8");
+const license = await readFile("../LICENSE", "utf-8");
 
 await Bun.build({
   entrypoints: ["./src/apple"],
