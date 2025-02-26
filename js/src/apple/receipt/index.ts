@@ -97,7 +97,7 @@ function decodePayload(
  * @throws If the receipt is malformed or the signature is invalid.
  * @returns The parsed receipt.
  */
-export async function verifyReceipt(
+export async function parseReceipt(
   receipt: string | Buffer<ArrayBuffer>,
   options: IAPReceiptOptions = {}
 ): Promise<AppReceipt> {
