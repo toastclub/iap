@@ -11,7 +11,7 @@ jobs:
     permissions:
       id-token: write
       contents: write
-    efaults:
+    defaults:
       run:
         working-directory: ./js
     steps:
