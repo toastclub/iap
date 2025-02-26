@@ -24,7 +24,7 @@ jobs:
       - name: Test
         run: bun test
       - name: Build
-        run: bun build
+        run: bun run bundle.ts
       - name: Publish
         run: bun publish
         env:
