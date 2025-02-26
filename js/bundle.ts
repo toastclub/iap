@@ -40,7 +40,7 @@ function getDtsBunPlugin(): BunPlugin {
 }
 
 await Bun.build({
-  entrypoints: ["./src/apple/reciept", "./src/apple/transaction"],
+  entrypoints: ["./src/apple/receipt", "./src/apple/transaction"],
   outdir: "./build",
   packages: "external",
   root: "./src",

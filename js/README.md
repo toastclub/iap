@@ -29,7 +29,7 @@ Safeguarding against replay attacks is very difficult. Receipts are only generat
 
 ```javascript
 import { verifyReceipt as verifyApple } from "iap.js/apple";
-let result = await verifyApple(reciept, options).catch((err) => {
+let result = await verifyApple(receipt, options).catch((err) => {
   // throws an error if the receipt is invalid
 });
 console.log(result.bundleIdentifier);

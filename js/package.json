@@ -34,8 +34,13 @@
     "oxc-transform"
   ],
   "files": [
-    "build",
-    "LICENSE",
+    "./build",
+    "../LICENSE",
     "README.md"
-  ]
+  ],
+  "exports": {
+    "./apple/receipt": "./build/apple/receipt/index.js",
+    "./apple/transaction": "./build/apple/transaction/index.js",
+    "./*": "./build/*.js"
+  }
 }

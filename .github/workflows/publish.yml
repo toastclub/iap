@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    efaults:
+      run:
+        working-directory: ./js
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Install Dependencies
+        run: bun install
+      - name: Test
+        run: bun test
+      - name: Build
+        run: bun build
+      - name: Publish
+        run: bun publish
+        env:
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to JSR
+        run: bunx jsr publish
+      - name: Release
+        uses: softprops/action-gh-release@v2

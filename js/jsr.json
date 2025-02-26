@@ -1,0 +1,11 @@
+{
+  "name": "@toastcat/iap",
+  "type": "module",
+  "version": "0.0.1",
+  "exports": {
+    "./apple/receipt": "./src/apple/receipt/index.ts",
+    "./apple/transaction": "./src/apple/transaction/index.ts",
+    "./*": "./src/*.js"
+  },
+  "include": ["src/**/*.ts", "../LICENSE", "README.md"]
+}
