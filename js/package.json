@@ -1,7 +1,7 @@
 {
   "name": "iap.js",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "BSD-3-Clause",
   "author": {
     "name": "Toastcat LLC"
