@@ -1,10 +1,11 @@
 {
   "name": "@toastcat/iap",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "exports": {
     "./apple/receipt": "./build/apple/receipt/index.ts",
     "./apple/transaction": "./build/apple/transaction/index.ts"
   },
+  "license": "BSD-3-Clause",
   "include": ["build/**/*.ts", "../LICENSE", "README.md"]
 }
