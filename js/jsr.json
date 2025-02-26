@@ -1,11 +1,12 @@
 {
   "name": "@toastcat/iap",
   "type": "module",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "exports": {
     "./apple/receipt": "./build/apple/receipt/index.js",
     "./apple/transaction": "./build/apple/transaction/index.js"
   },
   "license": "BSD-3-Clause",
-  "include": ["build/**/*.js", "build/**/*.d.ts", "../LICENSE", "README.md"]
+  "include": ["build/**/*.js", "build/**/*.d.ts", "../LICENSE", "README.md"],
+  "exclude": ["!build"]
 }

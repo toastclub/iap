@@ -1,6 +1,7 @@
-import { readFile } from "fs/promises";
+import { readFile, readdir } from "fs/promises";
 import type { BunPlugin } from "bun";
 import { isolatedDeclaration } from "oxc-transform";
+import path from "path";
 
 const license =
   (await readFile("../LICENSE", "utf-8"))
@@ -51,3 +52,17 @@ await Bun.build({
   banner: license,
   plugins: [getDtsBunPlugin()],
 });
+
+// for each .js file in the build directory, write `// @ts-self-types="./filename.d.ts"` to the top
+// of the file
+const files = await readdir(path.join(import.meta.dirname, "build/"), {
+  recursive: true,
+});
+for (const file of files) {
+  if (file.endsWith(".js")) {
+    const dtsFile = file.replace(/\.js$/, ".d.ts").split("/").pop()!;
+    const jsFile = path.join(import.meta.dirname, "build", file);
+    const jsContent = await readFile(jsFile, "utf-8");
+    await Bun.write(jsFile, `// @ts-self-types="./${dtsFile}"\n${jsContent}`);
+  }
+}
