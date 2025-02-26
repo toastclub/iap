@@ -1,6 +1,6 @@
 # iap
 
-In-app purchase verification libraries
+Serverside in-app purchase verification libraries that do not require network access.
 
 - [`./js`](./js)
 

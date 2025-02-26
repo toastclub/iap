@@ -23,6 +23,10 @@ function nullableDate(value: Date | null) {
   return value;
 }
 
+/**
+ * Parse an in-app purchase field (17) from an ASN.1 structure.
+ * @param attributes ASN.1 attributes
+ */
 function parseInAppPurchaseReceipt(attributes, options: IAPReceiptOptions) {
   const receipt: IAPReceipt = { remaining: [] };
 

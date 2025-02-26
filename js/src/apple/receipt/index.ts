@@ -3,6 +3,9 @@ import { fromBER } from "asn1js";
 import { getAppleRootPem } from "../pem" with { type: "macro" };
 import { parseAppReceipt, type AppReceipt } from "./asn1";
 
+/**
+ * Options for parsing & verifying an App Store receipt.
+ */
 export interface IAPReceiptOptions {
   /**
    * Remaining attributes that are undocumented by Apple.
@@ -87,9 +90,12 @@ function decodePayload(
 }
 
 /**
+ * Verify an App Store receipt.
  *
  * @param receipt - The receipt to decode. Can be a base64 string or a Buffer.
  * @param options - Options for decoding the receipt.
+ * @throws If the receipt is malformed or the signature is invalid.
+ * @returns The parsed receipt.
  */
 export async function verifyReceipt(
   receipt: string | Buffer<ArrayBuffer>,
@@ -99,8 +105,10 @@ export async function verifyReceipt(
     receipt = Buffer.from(receipt, "base64");
   }
   if (options.trustedCerts == undefined) {
-    // @ts-expect-error getAppleRootPem is a macro
-    let rootCert: String = getAppleRootPem();
+    let rootCert: String = (await getAppleRootPem('appleca/AppleIncRootCertificate'))
+      .replace(/-----BEGIN CERTIFICATE-----/g, "")
+      .replace(/-----END CERTIFICATE-----/g, "")
+      .replace(/\s+/g, "");
     const certBinary = Buffer.from(rootCert, "base64");
 
     const asn1 = fromBER(certBinary.buffer);
