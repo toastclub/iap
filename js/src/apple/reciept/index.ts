@@ -1,7 +1,7 @@
 import * as pkijs from "pkijs";
 import { fromBER } from "asn1js";
 import { getAppleRootPem } from "../pem" with { type: "macro" };
-import { createAppReceipt, type AppReceipt } from "./asn1";
+import { parseAppReceipt, type AppReceipt } from "./asn1";
 
 export interface IAPReceiptOptions {
   /**
@@ -83,7 +83,7 @@ function decodePayload(
 
   const receiptAttributes = payloadAsn1.result.valueBlock.value;
 
-  return createAppReceipt(receiptAttributes, options);
+  return parseAppReceipt(receiptAttributes, options);
 }
 
 /**
@@ -91,7 +91,7 @@ function decodePayload(
  * @param receipt - The receipt to decode. Can be a base64 string or a Buffer.
  * @param options - Options for decoding the receipt.
  */
-export async function decode(
+export async function verifyReceipt(
   receipt: string | Buffer<ArrayBuffer>,
   options: IAPReceiptOptions = {}
 ): Promise<AppReceipt> {
@@ -112,3 +112,5 @@ export async function decode(
 
   return parsePKCS7(receipt, options);
 }
+
+export { parseAppReceipt, parseInAppPurchaseReceipt } from "./asn1";

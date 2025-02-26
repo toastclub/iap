@@ -2,6 +2,13 @@ import { readFile } from "fs/promises";
 import type { BunPlugin } from "bun";
 import { isolatedDeclaration } from "oxc-transform";
 
+const license =
+  (await readFile("../LICENSE", "utf-8"))
+    .trim()
+    .split("\n")
+    .map((line) => `// ${line}`)
+    .join("\n") + "\n\n";
+
 function getDtsBunPlugin(): BunPlugin {
   const wroteTrack = new Set<string>();
   return {
@@ -22,7 +29,7 @@ function getDtsBunPlugin(): BunPlugin {
               args.path
                 .replace(new RegExp(`^${rootPath}`), outPath)
                 .replace(/\.ts$/, ".d.ts"),
-              code
+              license + code
             );
           }
           return undefined;
@@ -32,10 +39,8 @@ function getDtsBunPlugin(): BunPlugin {
   };
 }
 
-const license = await readFile("../LICENSE", "utf-8");
-
 await Bun.build({
-  entrypoints: ["./src/apple"],
+  entrypoints: ["./src/apple/reciept"],
   outdir: "./build",
   packages: "external",
   root: "./src",
@@ -43,11 +48,6 @@ await Bun.build({
   minify: {
     syntax: true,
   },
-  banner:
-    license
-      .trim()
-      .split("\n")
-      .map((line) => `// ${line}`)
-      .join("\n") + "\n\n",
+  banner: license,
   plugins: [getDtsBunPlugin()],
 });

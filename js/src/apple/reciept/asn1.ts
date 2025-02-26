@@ -23,7 +23,7 @@ function nullableDate(value: Date | null) {
   return value;
 }
 
-function createInAppPurchaseReceipt(attributes, options: IAPReceiptOptions) {
+function parseInAppPurchaseReceipt(attributes, options: IAPReceiptOptions) {
   const receipt: IAPReceipt = { remaining: [] };
 
   const handlers: Record<number, (value: any) => void> = {
@@ -115,7 +115,7 @@ export interface AppReceipt {
   remaining?: any[];
 }
 
-function createAppReceipt(attributes, options: IAPReceiptOptions) {
+function parseAppReceipt(attributes, options: IAPReceiptOptions) {
   const receipt: AppReceipt = { inAppPurchaseReceipts: [], remaining: [] };
 
   const handlers: Record<number, (value: any) => void> = {
@@ -129,7 +129,7 @@ function createAppReceipt(attributes, options: IAPReceiptOptions) {
       const result = fromBER(new Uint8Array(value.valueHex).buffer);
       if (result.offset !== -1) {
         let iapAttributes = result.result.valueBlock.value;
-        const iap = createInAppPurchaseReceipt(iapAttributes, options);
+        const iap = parseInAppPurchaseReceipt(iapAttributes, options);
         receipt.inAppPurchaseReceipts.push(iap);
       }
     },
@@ -161,4 +161,4 @@ function createAppReceipt(attributes, options: IAPReceiptOptions) {
   return receipt;
 }
 
-export { createInAppPurchaseReceipt, createAppReceipt };
+export { parseInAppPurchaseReceipt, parseAppReceipt };
