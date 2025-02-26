@@ -27,7 +27,7 @@ export interface IAPReceiptOptions {
    *
    * @default true
    */
-  verifyCertTime?: boolean;
+  verifyCertTiming?: boolean;
 }
 
 // Function to parse and verify PKCS7 receipt
@@ -50,14 +50,14 @@ async function parsePKCS7(
   let payload = decodePayload(signedData, options);
 
   if (options.trustedCerts !== false) {
-    if (options.verifyCertTime !== false && payload.receiptCreationDate === undefined) {
+    if (options.verifyCertTiming !== false && payload.receiptCreationDate === undefined) {
       throw new Error("Receipt creation date is missing");
     }
 
     let verifyResult = await signedData.verify({
       signer: 0,
       trustedCerts: options.trustedCerts,
-      checkDate: options.verifyCertTime
+      checkDate: options.verifyCertTiming
         ? payload.receiptCreationDate
         : undefined,
     });
